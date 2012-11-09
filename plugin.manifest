@@ -1,0 +1,6 @@
+pluginname=Persoenliche-News
+pluginclassname=PersonalNews
+origin=neo
+version=1.1
+description=Zeigt die letzten Ankündigungen von Einrichtungen und Vorlesungen bei dem der User eingeschrieben ist
+studipMinVersion=2.1
