@@ -30,6 +30,7 @@
             <? endif ?>
             </div>
             </div>
+                <div onclick="hiddenews('<?= $new["news_id"] ?>');" class="pnhiddenews">Diese Ank&uuml;ndigungen nicht mehr Anzeigen</div>
             </td>
         </tr>
 
@@ -37,6 +38,6 @@
     <? endforeach ?>
 <? ELSE : ?>
 
-<div style="" name="keineNews">Es wurden keine Ank&uuml;ndigungen gefunden</div>
+<div style="" name="keineNews" >Es wurden keine Ank&uuml;ndigungen gefunden</div>
 
 <? ENDIF ?>

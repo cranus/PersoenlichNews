@@ -13,6 +13,8 @@ class PersonalNews extends StudipPlugin implements PortalPlugin
 {
     public function getPortalTemplate()
     {
+        //JavaScript Datei hinzufühen
+        PageLayout::addScript($this->getPluginURL() . '/assets/js/personalnews.js');
         $template_path = $this->getPluginPath().'/templates';
         $template_factory = new Flexi_TemplateFactory($template_path);
         $template = $template_factory->open('news');
@@ -123,6 +125,28 @@ class PersonalNews extends StudipPlugin implements PortalPlugin
     }
     
     /*
+     * Für Ajax anfragen
+     * 
+     * @parm    string todo     Gibt an was er machen soll
+     * @parm    string newsid   ID der Ankuendigung
+     * @return  true/false      Erfolgreich oder auch nicht erfolgreich
+     * 
+     */
+    private function ajax_show($todo, $newsid) {
+        switch ($todo) {
+            case 'hidde':
+                $this->hiddenews($newsid);
+                break;
+            default:
+               
+            return false;
+                 break;
+        }
+        
+        return true;
+    }
+    
+    /*
      * Versteckt die Ankündigung
      * 
      * @parm    string newsid   ID der Ankuendigung
@@ -130,8 +154,14 @@ class PersonalNews extends StudipPlugin implements PortalPlugin
      * 
      */
     private function hiddenews($newsid) {
-        
-        
+        $sql = "INSERT INTO  `studip`.`plugins_personalnews` (".
+                "`newsid` ,".
+                "`user_id`)".
+                " VALUES (".
+                "?,  ?".
+                ")";
+        $db = DBManager::get()->prepare($sql);
+        $db->execute(array($newsid, $GLOBALS['user']->id));
         return true;
     }
 }
