@@ -28,7 +28,8 @@ class PersonalNews extends StudipPlugin implements PortalPlugin
         $userid = $GLOBALS['user']->id;
         $db = DBManager::get();
         //Alle News des Users sammeln!
-        $sql = "SELECT news_id, topic, body, author, user_id, date, expire FROM `news` WHERE `news_id` in (
+        if($_REQUEST["pnshowall"] == "true") {
+            $sql = "SELECT news_id, topic, body, author, user_id, date, expire FROM `news` WHERE `news_id` in (
                   SELECT news_id FROM  `news_range`
                   WHERE range_id in (
                       SELECT  Institut_id FROM  `user_inst` WHERE user_id = '".$userid."') OR
@@ -37,6 +38,19 @@ class PersonalNews extends StudipPlugin implements PortalPlugin
                   AND (date+expire) > '".time()."'
                 ORDER BY date DESC
                 LIMIT 0, 30";
+        } else {
+            $sql = "SELECT news_id, topic, body, author, user_id, date, expire FROM `news` WHERE `news_id` in (
+                  SELECT news_id FROM  `news_range`
+                  WHERE range_id in (
+                      SELECT  Institut_id FROM  `user_inst` WHERE user_id = '".$userid."') OR
+                      range_id in (SELECT  Seminar_id FROM  `seminar_user` WHERE user_id = '".$userid."')
+                  )
+                  AND (date+expire) > '".time()."'
+                  AND NOT news_id in (SELECT  newsid FROM  plugins_personalnews WHERE user_id = '".$userid."')
+                ORDER BY date DESC
+                LIMIT 0, 30";
+        }
+        echo $sql;
         $news = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($news as $n) {
@@ -106,6 +120,19 @@ class PersonalNews extends StudipPlugin implements PortalPlugin
     //Ändert den Status damit der User diese Ankündigung schon gelesen hat
     private function setUserVisitStatus($newsid) {
 
+    }
+    
+    /*
+     * Versteckt die Ankündigung
+     * 
+     * @parm    string newsid   ID der Ankuendigung
+     * @return  true/false      Erfolgreich oder auch nicht erfolgreich
+     * 
+     */
+    private function hiddenews($newsid) {
+        
+        
+        return true;
     }
 }
 ?>

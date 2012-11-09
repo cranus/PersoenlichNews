@@ -11,6 +11,10 @@ ACHTUNG: Es gibt noch keine Übersetzung ins Englische.
 * Gelesene Ankündigungen werden nicht als diese Markiert
 
 # Changelog
+
+## Version 1.2
+* User kann News ein und Ausblenden
+
 ## Version 1.1
 * Verallgemeinern des Plugins
 * neo aus dem Plugin Name entfernt
