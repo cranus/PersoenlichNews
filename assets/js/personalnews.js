@@ -13,7 +13,4 @@ function hiddennews(newsid) {
 
 $(document).ready(function() {
     $('.pnhiddenews').button();
-}
-
-
-
+});
